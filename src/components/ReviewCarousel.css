@@ -1,0 +1,85 @@
+
+.reviews-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.rating-label {
+  color: #fbbc04; /* Yellow color code */
+}
+
+.half-star {
+  color: #fbbc04; /* Yellow color code */
+}
+
+.carousel-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #333;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  padding: 10px;
+}
+
+.carousel-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.carousel-button:first-of-type {
+  left: 0px; 
+}
+
+.carousel-button:last-of-type {
+  right: -10px; 
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out; 
+  width: 100%;
+  margin: 0 60px; 
+  height: 225px; 
+}
+
+.review {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%; 
+}
+
+.review.active {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%; 
+}
+
+.review p {
+  margin: 5px 0;
+}

@@ -1,0 +1,111 @@
+.menu-container h1 {
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+  
+  .menu-section {
+    margin-bottom: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .menu-section h2 {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  
+  .section-description {
+    color: #626262;
+    padding-bottom: 15px;
+    text-align: center;
+  }
+  
+  .menu-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .menu-column {
+    flex: 1;
+    min-width: 250px;
+    margin: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .menu-item {
+    margin-bottom: 10px;
+  }
+  
+  .item-details {
+    display: flex;
+  }
+  
+  .item-name {
+    flex: 1;
+    white-space: nowrap;
+    padding-right: 5px;
+    text-align: center;
+  }
+  
+  .dotted-line {
+    display: table-cell;
+    border-bottom: 2px dotted #000;
+    width: 100%;
+    height: 100%;
+    align-self: flex-end;
+  }
+  
+  .item-price {
+    flex-shrink: 0; 
+    white-space: nowrap;
+  }
+  
+  .item-description {
+    flex-grow: 1;
+    color: #555;
+    white-space: wrap;
+  }
+  
+  .addition {
+    display: block;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 5px;
+  }
+  
+  .addition-name {
+    font-weight: bold;
+  }
+  
+  .addition-price {
+    margin-left: 10px;
+    color: #333;
+  }
+
+  .item-title{
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  .item-subtitle {
+    text-align: center;
+    margin-bottom: 5px;
+    color: #626262;
+  }
+
+  .Liability-section {
+    text-align: center;
+    padding-bottom: 30px;
+    font-size: 20px;
+  }
+  
+  @media (max-width: 960px) {
+    .menu-column {
+      flex: 1 1 100%;
+      margin: 0;
+    }
+  }
+  
