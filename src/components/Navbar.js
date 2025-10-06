@@ -91,7 +91,7 @@ function Navbar() {
                 </Link>
               )}
               <Link to="/contact" className={getNavLinkClass('/contact')} onClick={closeMobileMenu}>Contact</Link>
-              <Link to="https://squareup.com/gift/RJ1JNDFE2E7DJ/order" target="_blank" className={getNavLinkClass('/giftcards')} onClick={closeMobileMenu}>Gift Cards</Link>
+              <Link to="/store" className={getNavLinkClass('/store')} onClick={closeMobileMenu}>Store</Link>
             </div>
           </ul>
         </div>
@@ -101,3 +101,4 @@ function Navbar() {
 }
 
 export default Navbar;
+//https://squareup.com/gift/RJ1JNDFE2E7DJ/order

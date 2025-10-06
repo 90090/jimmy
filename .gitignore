@@ -2,8 +2,10 @@
 
 # dependencies
 /node_modules
+/AWS
 /.pnp
 .pnp.js
+
 
 # testing
 /coverage
