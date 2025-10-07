@@ -1,37 +1,42 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // Each product has its own size tiers + prices
 const products = [
   {
     id: 1,
     name: "Short-Sleeve Tee",
-    prices: { S: 18, M: 18, L: 18, XL: 18, "2XL": 25, "3XL": 30 },
+    prices: { S: 22, M: 22, L: 22, XL: 22, "2XL": 22, "3XL": 22 },
+    colors: ["Black", "Navy"],
     images: ["/images/TshirtFront.png", "/images/TshirtBack.png"],
   },
   {
     id: 2,
     name: "Long-Sleeve Tee",
-    prices: { S: 28, M: 28, L: 28, XL: 28, "2XL": 32, "3XL": 38 },
+    prices: { S: 32, M: 32, L: 32, XL: 32, "2XL": 32, "3XL": 32 },
+    colors: ["Black", "Navy"],
     images: ["/images/LongsleeveFront.png", "/images/LongsleeveBack.png"],
   },
   {
     id: 3,
-    name: "Hoodie",
-    prices: { S: 58, M: 58, L: 58, XL: 58, "2XL": 68, "3XL": 80 },
+    name: "Light Weight Hoodie",
+    prices: { S: 49, M: 49, L: 49, XL: 49, "2XL": 49, "3XL": 49 },
+    colors: ["Black", "Navy"],
     images: ["/images/HoodieFront.png", "/images/HoodieBack.png"],
   },
-  // {
-  //   id: 4,
-  //   name: "Gift Card",
-  //   prices: {},
-  //   images: ["/images/HoodieFront.png", "/images/HoodieBack.png"],
-  // },
+  {
+    id: 4,
+    name: "Heavy Weight Hoodie",
+    prices: { S: 59, M: 59, L: 59, XL: 59, "2XL": 59, "3XL": 59 },
+    colors: ["Black", "Navy"],
+    images: ["/images/HoodieFront.png", "/images/HoodieBack.png"],
+  },
 ];
 
 export default function StorePage() {
   const [cart, setCart] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSizes, setSelectedSizes] = useState({});
+  const [selectedColors, setSelectedColors] = useState({}); // ✅ new state
   const [imageIndex, setImageIndex] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -39,71 +44,82 @@ export default function StorePage() {
     setImageIndex(0);
   }, [selectedProduct]);
 
-
-  // Add item to cart
-  const addToCart = (product, size) => {
+  // ✅ Add item to cart
+  const addToCart = (product, size, color) => {
     if (!size) return alert("Please select a size!");
+    if (!color) return alert("Please select a color!");
 
-    const existing = cart.find((i) => i.id === product.id && i.size === size);
+    const existing = cart.find(
+      (i) => i.id === product.id && i.size === size && i.color === color
+    );
     const price = product.prices[size];
 
     if (existing) {
       setCart(
         cart.map((i) =>
-          i.id === product.id && i.size === size
+          i.id === product.id && i.size === size && i.color === color
             ? { ...i, quantity: i.quantity + 1 }
             : i
         )
       );
     } else {
-      setCart([...cart, { ...product, size, price, quantity: 1 }]);
+      setCart([
+        ...cart,
+        {
+          ...product,
+          size,
+          color,
+          price,
+          name: `${product.name} – ${color} - ${size}`, // ✅ include color and size in item name
+          quantity: 1,
+        },
+      ]);
     }
   };
 
   // Remove item from cart
-  const removeFromCart = (id, size) => {
-    setCart(cart.filter((i) => !(i.id === id && i.size === size)));
+  const removeFromCart = (id, size, color) => {
+    setCart(cart.filter((i) => !(i.id === id && i.size === size && i.color === color)));
   };
 
   // Update quantity
-  const updateQuantity = (id, size, qty) => {
+  const updateQuantity = (id, size, color, qty) => {
     if (qty < 1) return;
     setCart(
       cart.map((i) =>
-        i.id === id && i.size === size ? { ...i, quantity: qty } : i
+        i.id === id && i.size === size && i.color === color
+          ? { ...i, quantity: qty }
+          : i
       )
     );
   };
 
   // Checkout
   const checkout = async () => {
-  if (cart.length === 0) return alert("Cart is empty!");
-  setLoading(true);
+    if (cart.length === 0) return alert("Cart is empty!");
+    setLoading(true);
 
-  const res = await fetch("https://x6ebiph4fl.execute-api.us-east-1.amazonaws.com/checkout", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items: cart }),
-  });
+    const res = await fetch("https://eevi8ubkjk.execute-api.us-east-1.amazonaws.com/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: cart }),
+    });
 
-  const data = await res.json();
-  if (data.checkoutUrl) {
-    window.open(data.checkoutUrl, "_blank"); // Open in new tab/window
-  } else {
-    alert("Checkout failed");
-  }
-  setLoading(false);
-};
-
+    const data = await res.json();
+    if (data.checkoutUrl) {
+      window.open(data.checkoutUrl, "_blank");
+    } else {
+      alert("Checkout failed");
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-8">
       {/* Products */}
       <div className="md:col-span-2 grid gap-6 sm:grid-cols-2">
         {products.map((product) => {
-          const priceRange = `${Object.values(product.prices)[0]}–${
-            Object.values(product.prices).slice(-1)[0]
-          }`;
+          const price = Object.values(product.prices);
           return (
             <div
               key={product.id}
@@ -117,14 +133,15 @@ export default function StorePage() {
                   className="w-full h-48 object-contain rounded mb-3"
                 />
                 <h3 className="text-lg font-bold">{product.name}</h3>
-                <p className="text-gray-700">${priceRange}</p>
+                <p className="text-gray-700">${price[0]}</p>
                 <p className="text-xs text-gray-500 italic mt-1">
                   Tap to view more photos
                 </p>
               </div>
 
-              {/* Size selection */}
-              <div className="mt-4">
+              {/* ✅ Size and Color selection */}
+              <div className="mt-4 space-y-2">
+                {/* Size */}
                 <select
                   className="border rounded px-2 py-1 w-full"
                   value={selectedSizes[product.id] || ""}
@@ -143,11 +160,36 @@ export default function StorePage() {
                     </option>
                   ))}
                 </select>
+
+                {/* ✅ Color */}
+                <select
+                  className="border rounded px-2 py-1 w-full"
+                  value={selectedColors[product.id] || ""}
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={(e) =>
+                    setSelectedColors({
+                      ...selectedColors,
+                      [product.id]: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select color</option>
+                  {product.colors.map((color) => (
+                    <option key={color} value={color}>
+                      {color}
+                    </option>
+                  ))}
+                </select>
+
                 <button
                   className="mt-3 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 w-full"
                   onClick={(e) => {
                     e.stopPropagation();
-                    addToCart(product, selectedSizes[product.id]);
+                    addToCart(
+                      product,
+                      selectedSizes[product.id],
+                      selectedColors[product.id]
+                    );
                   }}
                 >
                   Add to Cart
@@ -158,6 +200,7 @@ export default function StorePage() {
         })}
       </div>
 
+      {/* Cart */}
       <div className="border rounded-lg shadow p-4 flex flex-col">
         <h2 className="text-xl font-bold mb-4">Cart</h2>
         {cart.length === 0 ? (
@@ -166,13 +209,13 @@ export default function StorePage() {
           <div className="flex-1 space-y-2">
             {cart.map((item) => (
               <div
-                key={`${item.id}-${item.size}`}
+                key={`${item.id}-${item.size}-${item.color}`}
                 className="flex justify-between items-center border-b pb-2"
               >
                 <div>
                   <p>{item.name}</p>
                   <p className="text-sm text-gray-500">
-                    {item.size} – ${item.price} x {item.quantity}
+                    {item.size} – {item.color} – ${item.price} × {item.quantity}
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -184,13 +227,16 @@ export default function StorePage() {
                       updateQuantity(
                         item.id,
                         item.size,
+                        item.color,
                         parseInt(e.target.value)
                       )
                     }
                   />
                   <button
                     className="text-red-600 font-bold"
-                    onClick={() => removeFromCart(item.id, item.size)}
+                    onClick={() =>
+                      removeFromCart(item.id, item.size, item.color)
+                    }
                   >
                     ✕
                   </button>
@@ -198,10 +244,10 @@ export default function StorePage() {
               </div>
             ))}
 
-            {/* Total + Checkout inside the scrollable container */}
             <div className="mt-2">
               <p className="font-bold">
-                Total: ${cart.reduce((sum, i) => sum + i.price * i.quantity, 0)}
+                Total: $
+                {cart.reduce((sum, i) => sum + i.price * i.quantity, 0)}
               </p>
               <button
                 className="mt-1 w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 flex items-center justify-center"
@@ -238,68 +284,53 @@ export default function StorePage() {
         )}
       </div>
 
-
-      {/* Fullscreen Image Modal */}
-{selectedProduct && (
-  <div
-    className="fixed inset-0 flex items-center justify-center 
-               backdrop-blur-md bg-black/70 z-[9999]" // ✅ Blur + dark overlay + top layer
-    onClick={() => setSelectedProduct(null)}
-  >
-    <div
-      className="relative w-full h-full flex items-center justify-center"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* Close Button */}
-      <button
-        className="absolute top-5 right-6 text-white text-3xl font-bold z-50 hover:scale-110 transition-transform"
-        onClick={() => setSelectedProduct(null)}
-      >
-        ✕
-      </button>
-
-      {/* Left Arrow */}
-      <button
-        className="absolute left-5 text-white text-5xl z-50 px-3 py-2 
-                   rounded-full hover:bg-black/70 transition"
-        onClick={() =>
-          setImageIndex((prev) =>
-            prev === 0
-              ? selectedProduct.images.length - 1
-              : prev - 1
-          )
-        }
-      >
-        ❮
-      </button>
-
-      {/* Image (crisp, full view) */}
-      <img
-        src={selectedProduct.images[imageIndex]}
-        alt={selectedProduct.name}
-        className="w-full h-full object-contain select-none"
-        draggable="false"
-      />
-
-      {/* Right Arrow */}
-      <button
-        className="absolute right-5 text-white text-5xl z-50 px-3 py-2 
-                    rounded-full hover:bg-black/70 transition"
-        onClick={() =>
-          setImageIndex((prev) =>
-            prev === selectedProduct.images.length - 1
-              ? 0
-              : prev + 1
-          )
-        }
-      >
-        ❯
-      </button>
-    </div>
-  </div>
-)}
-
-
+      {/* Image Modal */}
+      {selectedProduct && (
+        <div
+          className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/70 z-[9999]"
+          onClick={() => setSelectedProduct(null)}
+        >
+          <div
+            className="relative w-full h-full flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-5 right-6 text-white text-3xl font-bold z-50 hover:scale-110 transition-transform"
+              onClick={() => setSelectedProduct(null)}
+            >
+              ✕
+            </button>
+            <button
+              className="absolute left-5 text-white text-5xl z-50 px-3 py-2 rounded-full hover:bg-black/70 transition"
+              onClick={() =>
+                setImageIndex((prev) =>
+                  prev === 0
+                    ? selectedProduct.images.length - 1
+                    : prev - 1
+                )
+              }
+            >
+              ❮
+            </button>
+            <img
+              src={selectedProduct.images[imageIndex]}
+              alt={selectedProduct.name}
+              className="w-full h-full object-contain select-none"
+              draggable="false"
+            />
+            <button
+              className="absolute right-5 text-white text-5xl z-50 px-3 py-2 rounded-full hover:bg-black/70 transition"
+              onClick={() =>
+                setImageIndex((prev) =>
+                  prev === selectedProduct.images.length - 1 ? 0 : prev + 1
+                )
+              }
+            >
+              ❯
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
