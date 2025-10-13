@@ -10,6 +10,7 @@ import About from './components/pages/About';
 import Contact from './components/pages/Contact'
 import ScrollToTop from './components/ScrollToTop';
 import StorePage from './components/pages/StorePage';
+import OrderConfirm from './components/pages/OrderConfirm';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/store" element={<StorePage />} />
+        <Route path="/order-confirmation" element={<OrderConfirm />} />
         </Routes>
       </Router>
   );

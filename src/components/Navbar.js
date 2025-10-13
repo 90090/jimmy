@@ -69,29 +69,29 @@ function Navbar() {
           </div>
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
             <div className="navbar-center">
-              <Link to="/" className={getNavLinkClass('/')} onClick={closeMobileMenu}>Home</Link>
+              <a href="/" className={getNavLinkClass('/')} onClick={closeMobileMenu}>Home</a>
               <div
                 className="menu-dropdown"
                 onMouseEnter={() => setIsMenuOpen(true)}
                 onMouseLeave={() => setIsMenuOpen(false)}
                 onClick={closeMobileMenu}
               >
-                <Link to="/menu" className={getNavLinkClass('/menu')} onClick={closeMobileMenu}>Menu</Link>
+                <a href="/menu" className={getNavLinkClass('/menu')} onClick={closeMobileMenu}>Menu</a>
                 {isMenuOpen && (
                   <div className="dropdown-content">
-                    <Link to="/breakfast"  onClick={closeMobileMenu}>Breakfast</Link>
-                    <Link to="/lunch" onClick={closeMobileMenu}>Lunch</Link>
+                    <a href="/breakfast"  onClick={closeMobileMenu}>Breakfast</a>
+                    <a href="/lunch" onClick={closeMobileMenu}>Lunch</a>
                   </div>
                 )}
               </div>
-              <Link to="/about" className={getNavLinkClass('/about')} onClick={closeMobileMenu}>About</Link>
+              <a href="/about" className={getNavLinkClass('/about')} onClick={closeMobileMenu}>About</a>
               {!click && (
-                <Link to="/" className="logo-link" onClick={closeMobileMenu}>
+                <a href="/" className="logo-link" onClick={closeMobileMenu}>
                   <img src={logo} alt="Logo" className="logo" />
-                </Link>
+                </a>
               )}
-              <Link to="/contact" className={getNavLinkClass('/contact')} onClick={closeMobileMenu}>Contact</Link>
-              <Link to="/store" className={getNavLinkClass('/store')} onClick={closeMobileMenu}>Store</Link>
+              <a href="/contact" className={getNavLinkClass('/contact')} onClick={closeMobileMenu}>Contact</a>
+              <a href="/store" className={getNavLinkClass('/store')} onClick={closeMobileMenu}>Store</a>
             </div>
           </ul>
         </div>

@@ -5,30 +5,37 @@ const products = [
   {
     id: 1,
     name: "Short-Sleeve Tee",
-    prices: { S: 22, M: 22, L: 22, XL: 22, "2XL": 22, "3XL": 22 },
+    prices: { S: 22, M: 22, L: 22, XL: 22, "2XL": 27, "3XL": 32 },
     colors: ["Black", "Navy"],
     images: ["/images/TshirtFront.png", "/images/TshirtBack.png"],
   },
   {
     id: 2,
     name: "Long-Sleeve Tee",
-    prices: { S: 32, M: 32, L: 32, XL: 32, "2XL": 32, "3XL": 32 },
+    prices: { S: 29, M: 29, L: 29, XL: 29, "2XL": 34, "3XL": 39 },
     colors: ["Black", "Navy"],
     images: ["/images/LongsleeveFront.png", "/images/LongsleeveBack.png"],
   },
   {
     id: 3,
     name: "Light Weight Hoodie",
-    prices: { S: 49, M: 49, L: 49, XL: 49, "2XL": 49, "3XL": 49 },
+    prices: { S: 39, M: 39, L: 39, XL: 39, "2XL": 44, "3XL": 49 },
     colors: ["Black", "Navy"],
     images: ["/images/HoodieFront.png", "/images/HoodieBack.png"],
   },
   {
     id: 4,
     name: "Heavy Weight Hoodie",
-    prices: { S: 59, M: 59, L: 59, XL: 59, "2XL": 59, "3XL": 59 },
+    prices: { S: 45, M: 45, L: 45, XL: 45, "2XL": 50, "3XL": 55 },
     colors: ["Black", "Navy"],
     images: ["/images/HoodieFront.png", "/images/HoodieBack.png"],
+  },
+  {
+    id: 4,
+    name: "Zip Up Hoodie",
+    prices: { S: 50, M: 50, L: 50, XL: 50, "2XL": 55, "3XL": 60 },
+    colors: ["Black", "Navy"],
+    images: ["/images/ZipUpFront.png", "/images/ZipUpBack.png"],
   },
 ];
 
@@ -53,7 +60,7 @@ export default function StorePage() {
       (i) => i.id === product.id && i.size === size && i.color === color
     );
     const price = product.prices[size];
-
+    
     if (existing) {
       setCart(
         cart.map((i) =>
@@ -99,7 +106,7 @@ export default function StorePage() {
     if (cart.length === 0) return alert("Cart is empty!");
     setLoading(true);
 
-    const res = await fetch("https://eevi8ubkjk.execute-api.us-east-1.amazonaws.com/checkout", {
+    const res = await fetch("https://l6wkux1rph.execute-api.us-east-1.amazonaws.com/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: cart }),

@@ -12,7 +12,7 @@ const Footer = () => {
           <p>Watertown, CT 06795</p>
           <p>(860) 274-3223</p>
           <p>Monday - Saturday: 5:30am - 2pm</p>
-          <p>Sunday: 5:30am - 12pm</p>
+          <p>Sunday: 5:30am - 12:30pm</p>
         </div>
         <div className="footer-right">
           <img src={logo} alt="Business Logo" className="footer-logo" />
