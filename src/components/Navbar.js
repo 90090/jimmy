@@ -92,6 +92,7 @@ function Navbar() {
               )}
               <a href="/contact" className={getNavLinkClass('/contact')} onClick={closeMobileMenu}>Contact</a>
               <a href="/store" className={getNavLinkClass('/store')} onClick={closeMobileMenu}>Store</a>
+              <a href="https://squareup.com/gift/RJ1JNDFE2E7DJ/order" className={getNavLinkClass('/giftcards')} onClick={closeMobileMenu}>Gift Cards</a>
             </div>
           </ul>
         </div>
