@@ -15,11 +15,10 @@ function Home() {
       
       {/* Announcement Section */}
       <div className="bg-red-600 text-white p-6 flex flex-col items-center justify-between space-y-4 md:space-y-0">
-        <div className="text-center md:text-left">
+        <div className="text-center md:text-center">
           <h2 className="text-2xl text-center font-bold mb-2">New Jimmy's Shirts & Hoodies!</h2>
           <p className="text-lg">
-            Order by Nov 23rd to receive your order by Christmas! Pickup Only.<br />
-            Orders placed Nov 24th and after are not guaranteed for Christmas.
+            Order Now! Pickup Only.<br />
           </p>
         </div>
         {/* <img
