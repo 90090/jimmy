@@ -1,54 +1,143 @@
 .footer {
-    height: 180px;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    background-clip: content-box;
-    box-sizing: border-box; 
+  background-color: #f4f4f4;
+  border-top: 1px solid #e2e2e2;
+  padding: 32px 24px;
+  box-sizing: border-box;
 }
 
 .footer-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1850px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+  max-width: 1850px;
+  margin: 0 auto;
 }
 
-.footer-left {
-    display: flex;
-    flex-direction: column;
-    padding: 10px; 
+.footer-column {
+  display: flex;
+  flex: 1;
+  min-width: 0;
 }
 
-.footer-left h2,
-.footer-left p {
-    margin: 1px 0;
+/* --- Location --- */
+.footer-location {
+  flex-direction: column;
+  justify-content: center;
 }
 
-.footer-right {
-    display: flex;
-    align-items: center;
-    padding: 10px; 
+.footer-location h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1a1a1a;
+  text-transform: uppercase;
+}
+
+.footer-location p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.5;
+}
+
+.footer-location a {
+  color: #444;
+  text-decoration: none;
+}
+
+.footer-location a:hover {
+  text-decoration: underline;
+}
+
+.footer-hours {
+  margin-top: 10px;
+}
+
+.footer-hours p {
+  display: flex;
+  gap: 8px;
+}
+
+.footer-hours span {
+  font-weight: 600;
+  color: #1a1a1a;
+  min-width: 60px;
+}
+
+/* --- Logo --- */
+.footer-logo-col {
+  justify-content: center;
+  align-items: center;
 }
 
 .footer-logo {
-    height: 100%;
-    max-height: 160px; 
-    max-width: 100%;
-    padding: 10px;
+  height: 140px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
+/* --- Badges --- */
+.footer-badges {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.chamber-badge {
+  max-width: 140px;
+}
+
+.chamber-badge img {
+  height: 80px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin-bottom: 6px;
+}
+
+.chamber-badge p {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #444;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* --- Responsive --- */
 @media screen and (max-width: 960px) {
-    .footer-left h2,
-    .footer-left p {
-        font-size: 12px;
-    }   
-    .footer-logo {
-        height: 80%;
-        max-height: 120px; 
-        max-width: 100%;
-    }
-    .footer{
-        height: 155px;
-    }
+  .footer-content {
+    flex-direction: column;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .footer-location {
+    align-items: center;
+  }
+
+  .footer-hours p {
+    justify-content: center;
+  }
+
+  .footer-badges {
+    justify-content: center;
+  }
+
+  .footer-logo {
+    height: 100px;
+  }
 }
