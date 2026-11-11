@@ -1,13 +1,25 @@
-// Shared business info — change it once here and the navbar, footer and contact page all update.
+// Shared business info — change it once here and the navbar, footer, contact page and SEO tags all update.
 export const site = {
   name: "Jimmy's of Watertown",
   tagline: 'All American Grill',
+  description:
+    "Family-owned All American Grill serving fresh, hot, house-made breakfast and lunch in Watertown, CT for over 20 years. Parties of up to 20 welcome.",
+  url: 'https://jimmysofwatertown.com',
   phone: '(860) 274-3223',
   phoneHref: 'tel:+18602743223',
+  phoneE164: '+1-860-274-3223',
+  email: 'Jimmysofwatertown@yahoo.com',
   address: { street: '1067 Main Street', city: 'Watertown', state: 'CT', zip: '06795' },
+  geo: { latitude: 41.595322, longitude: -73.111287 },
+  // Shown on the site (footer + contact page)
   hours: [
     { days: 'Mon–Sat', time: '5:30am – 2pm' },
     { days: 'Sunday', time: '5:30am – 12:30pm' },
+  ],
+  // Same hours in 24h format for Google's structured data — keep in sync with `hours` above
+  hoursSpec: [
+    { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '05:30', closes: '14:00' },
+    { days: ['Sunday'], opens: '05:30', closes: '12:30' },
   ],
   social: {
     facebook: 'https://www.facebook.com/jimmysofwatertown/',

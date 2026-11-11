@@ -1,0 +1,96 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  /** Page name, e.g. "Menu". Leave out on the home page. */
+  title?: string;
+  description?: string;
+  /** Path or URL to a 1200×630 share image. Defaults to /og-image.png in /public. */
+  image?: string;
+  imageAlt?: string;
+  canonicalURL?: string;
+  /** Open Graph type: 'website' for normal pages, 'article' for posts. */
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  image = '/og-image.png',
+  imageAlt = `${site.name} — ${site.address.city}, ${site.address.state}`,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site ?? site.url).href,
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.tagline}`;
+const absoluteImage = new URL(image, Astro.site ?? site.url).href;
+
+// Restaurant structured data — helps Google show the address,
+// hours and phone directly in search results and Maps
+const restaurantSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: site.name,
+  description: site.description,
+  url: site.url,
+  image: absoluteImage,
+  telephone: site.phoneE164,
+  email: site.email,
+  priceRange: '$',
+  servesCuisine: ['American', 'Breakfast', 'Diner'],
+  acceptsReservations: false,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.city,
+    addressRegion: site.address.state,
+    postalCode: site.address.zip,
+    addressCountry: 'US',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: site.geo.latitude,
+    longitude: site.geo.longitude,
+  },
+  openingHoursSpecification: site.hoursSpec.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.days,
+    opens: h.opens,
+    closes: h.closes,
+  })),
+  sameAs: [site.social.facebook, site.social.instagram],
+  hasMenu: `${site.url}/menu`,
+  award: "Connecticut Magazine Best of CT 2024 — Best Diner finalist",
+};
+---
+
+<!-- ── Primary ─────────────────────────────────────────── -->
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+<link rel="sitemap" href="/sitemap-index.xml" />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- ── Open Graph (Facebook, iMessage previews, etc.) ──── -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content="en_US" />
+
+<!-- ── Twitter / X Card ───────────────────────────────── -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteImage} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+<!-- ── Restaurant Structured Data (JSON-LD) ──────────── -->
+<script type="application/ld+json" set:html={JSON.stringify(restaurantSchema)} />
