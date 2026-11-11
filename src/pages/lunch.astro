@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MenuSections from '../components/MenuSections.astro';
+import { menuData } from '../data/menuData';
+---
+
+<Layout title="Lunch Menu" description="Lunch at Jimmy's of Watertown — burgers, foot long hot dogs, grinders, club sandwiches, melts, wraps, salads, fried seafood and blue plate specials.">
+  <MenuSections heading="Lunch" sections={menuData.lunch} />
+  <p class="pb-8 text-center text-xl">*Prices Subject to Change*</p>
+</Layout>

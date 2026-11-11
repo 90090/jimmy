@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import ReviewCarousel from '../components/ReviewCarousel';
+import { reviews } from '../data/reviews';
+
+import front from '../assets/images/front.JPG';
+import finalistBadge from '../assets/images/finalistbadge.png';
+import food28 from '../assets/images/food28.JPG';
+import food29 from '../assets/images/food29.jpeg';
+import food31 from '../assets/images/food31.JPG';
+import food35 from '../assets/images/food35.JPG';
+
+const foodShots = [food28, food29, food31, food35];
+---
+
+<Layout>
+  <!-- Announcement -->
+  <a href="/store" class="block bg-brand px-6 py-6 text-center text-white transition hover:bg-brand-dark">
+    <h2 class="mb-1 text-2xl font-bold">New Jimmy's Shirts &amp; Hoodies!</h2>
+    <p class="text-lg">Order Now! Pickup Only. <span class="underline underline-offset-4">Shop the store →</span></p>
+  </a>
+
+  <!-- Intro -->
+  <section class="flex flex-col items-center gap-8 px-4 py-10 md:flex-row md:items-start md:px-20 md:py-16">
+    <Image
+      src={front}
+      alt="The front of Jimmy's of Watertown on Main Street"
+      widths={[480, 768, 1200]}
+      sizes="(min-width: 768px) 50vw, 100vw"
+      class="w-full rounded-lg object-cover shadow-lg md:w-1/2"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="flex-1 space-y-4 text-center md:text-left">
+      <h1 class="text-4xl font-bold md:text-5xl">Welcome to Jimmy's of Watertown</h1>
+      <h2 class="text-2xl text-gray-700 md:text-3xl">All American Grill</h2>
+      <p class="text-base text-gray-600 md:text-lg">
+        Jimmy's of Watertown is a family-owned establishment serving fresh, hot, house-made breakfast and lunch for the
+        past 20 years. Nestled in the heart of Watertown, it's a staple for locals and visitors alike.
+      </p>
+      <p class="text-base text-gray-600 md:text-lg">
+        Bring your whole family for a delicious meal at Jimmy's! We can accommodate parties of up to 20 people.
+      </p>
+
+      <div class="space-y-4 rounded-lg bg-gray-100 p-4 shadow-md">
+        <div class="flex justify-center gap-4 md:justify-start">
+          <Image src={finalistBadge} alt="Connecticut Magazine Best of CT 2024 finalist badge" class="h-24 w-auto object-contain md:h-28" />
+        </div>
+        <p class="text-base text-gray-800 md:text-lg">
+          We were a finalist in Connecticut Magazine's Best of CT 2024 - voted Best Diner in Connecticut. Thank you to
+          everyone who voted!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Food photos -->
+  <section class="grid grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 md:grid-cols-4 md:px-20" aria-label="Food from Jimmy's">
+    {foodShots.map((img, i) => (
+      <Image
+        src={img}
+        alt={`A dish from Jimmy's of Watertown (${i + 1})`}
+        widths={[400, 800]}
+        sizes="(min-width: 768px) 25vw, (min-width: 640px) 50vw, 100vw"
+        class="h-60 w-full rounded-lg object-cover shadow-md md:h-48"
+      />
+    ))}
+  </section>
+
+  <!-- Reviews -->
+  <section class="px-4 py-12 text-center md:px-20">
+    <h3 class="mb-6 text-3xl font-bold">Google Business Reviews</h3>
+    <ReviewCarousel client:visible reviews={reviews} />
+  </section>
+</Layout>

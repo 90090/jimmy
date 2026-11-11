@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Store from '../components/Store';
+import { products } from '../data/products';
+import { site } from '../data/site';
+---
+
+<Layout title="Store" description="Order Jimmy's of Watertown shirts and hoodies online. Pickup only.">
+  <div class="px-6 pt-8 text-center">
+    <h1 class="text-4xl font-bold">Jimmy's Shirts &amp; Hoodies</h1>
+    <p class="mt-2 text-lg text-gray-600">Order online — pickup only at {site.address.street}, {site.address.city}.</p>
+  </div>
+  <Store client:load products={products} checkoutEndpoint={site.checkoutEndpoint} />
+</Layout>

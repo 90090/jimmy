@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/images/Jimmys.png';
+import chamberLogo from '../assets/images/wo-web.png';
+import { site } from '../data/site';
+---
+
+<footer class="border-t border-gray-200 bg-[#f4f4f4] px-6 py-8">
+  <div class="mx-auto flex w-full max-w-[1850px] flex-col items-center gap-7 text-center lg:flex-row lg:justify-between lg:gap-8 lg:text-left">
+    <!-- Location & hours -->
+    <div class="flex flex-1 flex-col items-center lg:items-start">
+      <h2 class="mb-2 text-lg font-semibold uppercase tracking-wide text-gray-900">Location</h2>
+      <address class="text-sm not-italic leading-relaxed text-gray-700">
+        <p>{site.address.street}</p>
+        <p>{site.address.city}, {site.address.state} {site.address.zip}</p>
+        <p><a href={site.phoneHref} class="hover:underline">{site.phone}</a></p>
+      </address>
+      <div class="mt-2.5 space-y-0.5 text-sm text-gray-700">
+        {site.hours.map((h) => (
+          <p class="flex justify-center gap-2 lg:justify-start">
+            <span class="min-w-16 font-semibold text-gray-900">{h.days}</span> {h.time}
+          </p>
+        ))}
+      </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="flex flex-1 items-center justify-center">
+      <Image src={logo} alt={site.name} class="h-24 w-auto object-contain lg:h-36" />
+    </div>
+
+    <!-- Badges -->
+    <div class="flex flex-1 flex-wrap items-center justify-center gap-6 lg:justify-end">
+      <div class="flex max-w-36 flex-col items-center text-center">
+        <Image src={chamberLogo} alt="Watertown Chamber of Commerce" class="mb-1.5 h-20 w-auto object-contain" />
+        <p class="text-[11px] font-semibold uppercase leading-snug tracking-wide text-gray-700">
+          Proud Member of the<br />Watertown Chamber of Commerce
+        </p>
+      </div>
+
+      <!-- Restaurant Guru badge (their CSS styles these class names) -->
+      <div class="flex flex-col items-center">
+        <link href="https://awards.infcdn.net/2024/circle_v3.css" rel="stylesheet" />
+        <div id="circle_bw" data-length="29" class="circle_bw_black rg-award-lang-en_US cursor-pointer">
+          <p class="circle_bw_year">2026</p>
+          <div class="circle_bw_name">
+            <a
+              class="circle_bw_link"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://restaurantguru.com/Jimmys-Of-Watertown-Watertown-Connecticut"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="178px" height="178px" viewBox="0 0 178 178">
+                <defs><path id="circle_bw_name-arc" d="M 12 89 a 77 77 0 0 0 154 0"></path></defs>
+                <text class="circle_bw_name_txt" fill="#000" text-anchor="middle">
+                  <textPath startOffset="50%" href="#circle_bw_name-arc">Jimmy's of Watertown</textPath>
+                </text>
+              </svg>
+            </a>
+          </div>
+          <div class="circle_bw_nom">
+            <svg xmlns="http://www.w3.org/2000/svg" width="200px" height="200px" viewBox="0 0 200 200">
+              <defs><path id="circle_bw_nom-arc1" d="M 30 100 a 70 70 0 1 1 140 0"></path></defs>
+              <text class="circle_bw_nom_txt" fill="#000" text-anchor="middle">
+                <textPath startOffset="50%" href="#circle_bw_nom-arc1">Recommended</textPath>
+              </text>
+            </svg>
+          </div>
+          <a class="circle_bw_home" style="font-size: 0" href="https://restaurantguru.com" target="_blank" rel="noopener noreferrer">
+            Restaurant Guru
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Clicking anywhere on the badge opens the Restaurant Guru listing (same as their embed script)
+  const badge = document.getElementById('circle_bw');
+  badge?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) return;
+    const link = badge.querySelector<HTMLAnchorElement>('.circle_bw_link');
+    if (link) window.open(link.href, '_blank', 'noopener');
+  });
+</script>

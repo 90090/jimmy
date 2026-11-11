@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MenuSections from '../components/MenuSections.astro';
+import { menuData } from '../data/menuData';
+---
+
+<Layout title="Breakfast Menu" description="Breakfast at Jimmy's of Watertown — eggs, overstuffed omelettes, pancakes, French toast, Belgian waffles and egg sandwiches, served from 5:30am.">
+  <MenuSections heading="Breakfast" sections={menuData.breakfast} />
+  <p class="pb-8 text-center text-xl">*Prices Subject to Change*</p>
+</Layout>

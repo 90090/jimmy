@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MenuSections from '../components/MenuSections.astro';
+import { menuData } from '../data/menuData';
+---
+
+<Layout title="Menu" description="Breakfast and lunch menu at Jimmy's of Watertown — omelettes, pancakes, burgers, grinders, wraps, melts and more.">
+  <div class="flex justify-center gap-4 pt-6">
+    <a href="#breakfast" class="rounded-full border border-gray-300 px-5 py-1.5 transition hover:border-brand hover:text-brand">Breakfast</a>
+    <a href="#lunch" class="rounded-full border border-gray-300 px-5 py-1.5 transition hover:border-brand hover:text-brand">Lunch</a>
+  </div>
+  <MenuSections id="breakfast" heading="Breakfast" sections={menuData.breakfast} />
+  <MenuSections id="lunch" heading="Lunch" sections={menuData.lunch} />
+  <p class="pb-8 text-center text-xl">*Prices Subject to Change*</p>
+</Layout>

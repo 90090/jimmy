@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+// Update this whenever a new merch batch goes out
+const pickupDate = 'Saturday, December 13, 2025';
+---
+
+<Layout title="Order Confirmed" showFooter={false}>
+  <meta name="robots" content="noindex" slot="head" />
+  <section class="flex min-h-[80vh] items-center justify-center bg-gray-50 px-4 py-20">
+    <div class="animate-fade-up max-w-2xl rounded-2xl bg-white p-8 text-center shadow-lg">
+      <div class="mb-6 flex justify-center">
+        <Icon name="check-circle" class="size-16 text-green-600" />
+      </div>
+
+      <h1 class="mb-4 text-3xl font-semibold text-gray-900">Thank You for Your Online Order!</h1>
+
+      <p class="mb-6 leading-relaxed text-gray-700">
+        Your order will be ready for pick up after <span class="font-semibold text-gray-900">{pickupDate}</span>
+        at <span class="font-semibold text-gray-900">{site.name}</span>, {site.address.street}, {site.address.city}, {site.address.state}.
+      </p>
+
+      <p class="mb-6 leading-relaxed text-gray-700">
+        If you have any questions, please call Courtney at
+        <a href="tel:+12032339115" class="font-semibold text-gray-900 hover:underline">203.233.9115</a>
+        or email us at
+        <a href="mailto:Jimmysofwatertown@yahoo.com" class="font-semibold text-gray-900 hover:underline">Jimmysofwatertown@yahoo.com</a>.
+      </p>
+
+      <p class="font-medium italic text-gray-800">Sincerely,</p>
+      <p class="font-semibold text-gray-900">The Ligi Family</p>
+
+      <a href="/" class="mt-8 inline-block rounded-md bg-brand px-6 py-3 font-medium text-white transition hover:bg-brand-dark">
+        Return Home
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Order went through — empty the saved store cart
+  try { localStorage.removeItem('jimmys-cart'); } catch {}
+</script>

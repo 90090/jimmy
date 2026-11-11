@@ -1,0 +1,76 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Layout from '../layouts/Layout.astro';
+import PhotoGallery, { type GalleryPhoto } from '../components/PhotoGallery';
+
+import aboutUs from '../assets/images/Aboutus.png';
+import inside2 from '../assets/images/inside2.jpg';
+
+// Every image in src/assets/images, keyed by filename
+const allImages = import.meta.glob<{ default: ImageMetadata }>('../assets/images/*.{png,jpg,jpeg,JPG,JPEG,PNG}', { eager: true });
+const byName = (file: string) => {
+  const img = allImages[`../assets/images/${file}`];
+  if (!img) throw new Error(`Gallery image not found: src/assets/images/${file}`);
+  return img.default;
+};
+
+// Gallery order (same order as the old About.js). Add/remove/reorder filenames here.
+const galleryFiles = [
+  'inside1.JPG', 'front2.jpg',
+  'food26.JPG', 'food27.JPG', 'food28.JPG', 'food29.jpeg', 'food30.JPG', 'food31.JPG', 'food32.JPG',
+  'food33.JPG', 'food34.JPG', 'food35.JPG', 'food36.JPG', 'food37.JPG',
+  'food1.png', 'food2.png', 'food3.png', 'food4.png', 'santa.JPG',
+  'food5.jpg', 'food6.jpg', 'food7.jpg', 'food8.jpg', 'food9.jpg', 'food10.jpg', 'food11.jpg', 'food12.jpg',
+  'food13.jpg', 'food14.jpg', 'food15.jpg', 'food16.jpg', 'food17.jpg', 'food18.jpg', 'food19.jpg',
+  'food20.jpg', 'food21.jpg', 'food22.jpg', 'food23.jpg', 'food24.jpg', 'food25.jpg',
+];
+
+// Pre-optimize a small thumbnail and a large lightbox version of each photo at build time
+const photos: GalleryPhoto[] = await Promise.all(
+  galleryFiles.map(async (file, i) => {
+    const src = byName(file);
+    const [thumb, full] = await Promise.all([
+      getImage({ src, width: Math.min(500, src.width), format: 'webp' }),
+      getImage({ src, width: Math.min(1600, src.width), format: 'webp' }),
+    ]);
+    return {
+      thumb: thumb.src,
+      full: full.src,
+      width: Number(thumb.attributes.width),
+      height: Number(thumb.attributes.height),
+      alt: `Jimmy's of Watertown photo ${i + 1}`,
+    };
+  }),
+);
+---
+
+<Layout title="About Us" description="Learn about Jimmy's of Watertown — a family-owned All American Grill with warm, friendly service — and browse our photo gallery.">
+  <div class="px-5 py-8">
+    <h1 class="mb-6 text-center text-4xl font-bold">About Us</h1>
+
+    <div class="mx-auto flex max-w-7xl flex-col items-center gap-8 lg:flex-row lg:items-start">
+      <div class="flex flex-1 flex-col items-center gap-6">
+        <div class="text-center">
+          <h2 class="mb-4 text-3xl font-bold">An All American Grill</h2>
+          <p class="text-xl leading-relaxed">
+            Beyond the delectable food, Jimmy's of Watertown's warm and friendly service sets it apart. The family and
+            staff treat every customer like a cherished guest, creating an inviting and comfortable environment where
+            everyone feels at home. Whether you're stopping by for a quick bite before work or enjoying a leisurely meal
+            with friends and family, Jimmy's of Watertown is the perfect place to savor delicious food and create lasting
+            memories.
+          </p>
+        </div>
+        <Image src={inside2} alt="Inside the dining room at Jimmy's of Watertown" widths={[480, 800]} sizes="(min-width: 1024px) 40vw, 100vw" class="h-auto w-full max-w-[600px] rounded" />
+      </div>
+      <div class="flex flex-1 justify-center lg:justify-end">
+        <Image src={aboutUs} alt="Jimmy's of Watertown restaurant" widths={[480, 800]} sizes="(min-width: 1024px) 40vw, 100vw" class="h-auto w-full max-w-[600px] rounded" />
+      </div>
+    </div>
+
+    <section class="mx-auto mt-12 max-w-7xl text-center">
+      <h2 class="pb-5 text-3xl font-bold">Photo Gallery</h2>
+      <PhotoGallery client:visible photos={photos} />
+    </section>
+  </div>
+</Layout>
